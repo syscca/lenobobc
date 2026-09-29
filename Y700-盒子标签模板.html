@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>联想拯救者 Y700（三/四/五代）包装盒标签模板 · 实拍复刻</title>
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;
+    background:#3a3f4b;color:#e8eaee;padding:18px 24px 80px;
+  }
+  /* ============ 工具栏（不打印） ============ */
+  .toolbar{max-width:1000px;margin:0 auto 24px;background:#2b2f3a;
+    border:1px solid #444b5a;border-radius:10px;padding:14px 18px}
+  .toolbar h1{font-size:16px;margin-bottom:8px}
+  .toolbar .tip{font-size:12px;color:#9aa3b2;margin-bottom:12px;line-height:1.7}
+  .toolbar .tip b{color:#e8b4b4}
+  .toolbar .row{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
+  .toolbar label{font-size:13px;color:#c7cdd9;display:flex;align-items:center;gap:6px}
+  .toolbar select,.toolbar input{background:#1f232c;color:#e8eaee;border:1px solid #4a5262;
+    border-radius:6px;padding:5px 8px;font-size:13px;font-family:inherit}
+  .toolbar input.mono{font-family:Consolas,"Courier New",monospace;letter-spacing:1px}
+  .toolbar .cnt{font-size:11px;color:#7f8a9d}
+  .toolbar button{background:#e2231a;color:#fff;border:none;border-radius:6px;
+    padding:7px 16px;font-size:13px;cursor:pointer;font-weight:600}
+  .toolbar button.gray{background:#4a5262}
+  .toolbar button:hover{filter:brightness(1.12)}
+  .tabs{display:flex;gap:8px;margin-bottom:12px}
+  .tabs button{background:#3d4350;font-weight:500;padding:7px 20px}
+  .tabs button.active{background:#e2231a;font-weight:700}
+
+  /* ============ 标签舞台：实测比例 100mm × 50mm（2:1） ============ */
+  .stage{display:flex;justify-content:center}
+  .panel{display:none;justify-content:center}
+  .panel.active{display:flex}
+  .crop{position:relative;width:75mm;height:38mm;display:flex;align-items:center;justify-content:center}
+  .crop .corner{position:absolute;width:4mm;height:4mm;border:0 solid #000}
+  .crop .c-tl{top:0;left:0;border-top-width:1px;border-left-width:1px}
+  .crop .c-tr{top:0;right:0;border-top-width:1px;border-right-width:1px}
+  .crop .c-bl{bottom:0;left:0;border-bottom-width:1px;border-left-width:1px}
+  .crop .c-br{bottom:0;right:0;border-bottom-width:1px;border-right-width:1px}
+
+  .label{
+    position:relative;width:100mm;height:50mm;background:#fff;color:#111;box-sizing:border-box;
+    border:0.15mm solid #777;border-radius:1.2mm;overflow:hidden;flex:none;
+  }
+  .label [contenteditable]{outline:none;border-radius:2px}
+  .label [contenteditable]:hover{background:#fff3f3;box-shadow:0 0 0 1px dashed #e2231a}
+
+  /* --- 绝对定位坐标全部为实测百分比，统一基准 --- */
+  .el{position:absolute}
+  .el-title{left:2.5%;top:6.6%;font-size:2.9mm;font-weight:700;letter-spacing:0.2px;line-height:1;white-space:nowrap}
+  /* 三代实拍：中文宋体加粗，Y700 西文为无衬线；四代/五代不变 */
+  .title-v1{font-weight:700;font-family:Arial,SimSun,"宋体","Songti SC",serif}
+  /* 配置行：代码→颜色→WIFI 自然排列，日期靠右（三代） */
+  .el-cfgrow{left:2.5%;right:2.8%;top:14.5%;display:flex;align-items:center;
+             gap:2.2mm;font-size:2.3mm;line-height:1;white-space:nowrap}
+  .el-cfgrow .js-cfg{font-size:2.3mm;letter-spacing:0.2px;word-spacing:-0.55mm}
+  .el-cfgrow > span:nth-child(3){margin-left:1.8mm}
+  .el-cfgrow .js-date{margin-left:auto}
+  /* 用 border 而非 background：浏览器默认会丢弃背景色导致打印预览里线消失，边框必被打印 */
+  .el-line{left:0;right:0;top:20.2%;height:0;border-top:0.35mm solid #000}
+
+  /* 三条堆叠条码：caption 独立定位，文字底部紧贴本条条纹顶（实拍节律：上松下紧） */
+  .cap{font-family:Consolas,"Courier New",monospace;font-size:2.2mm;
+       line-height:1;white-space:nowrap;display:flex;align-items:flex-end;color:#111;
+       transform:translateY(0.34mm)}  /* 补偿 monospace 字形底到字盒底的留白，使字形视觉底贴近条纹顶 */
+  .bc svg{width:100%;height:100%;display:block}
+  .cap1{left:2.5%;top:20.6%;width:56.5%;height:4.3%}
+  .cap2{left:2.5%;top:33.6%;width:56.5%;height:3.9%}
+  .cap3{left:2.5%;top:45.8%;width:29.5%;height:4.1%}
+  .bc1{left:2.5%;top:25.5%;width:56.5%;height:8.5%}
+  .bc2{left:2.5%;top:38.4%;width:56.5%;height:8.0%}
+  .bc3{left:2.5%;top:50.3%;width:26.7%;height:7.8%}
+
+  /* 参数区 */
+  .spec{font-size:1.9mm;line-height:1.5;white-space:nowrap}
+  .spec div{margin-bottom:0.15mm}
+  .spec-v1{left:35.5%;top:57.5%;width:46.5%;line-height:1.38}
+  .spec-v1 div{margin-bottom:0.05mm}
+  .spec-v2{left:63.5%;top:27.5%;width:35%}
+
+  /* 二维码 */
+  .qrbox{text-align:center}
+  .qrbox .qcap{font-size:1.85mm;line-height:1.2;margin-bottom:0.6mm;white-space:nowrap}
+  .qrbox .qr svg{width:100%;height:100%;display:block}
+  /* 二维码尺寸/落点均按实拍像素密度轮廓实测（照片有拖影，取方块校准值） */
+  .qr1-v1{left:72.5%;top:25.6%;width:19.6%}
+  .qr1-v1 .qr{width:10mm;height:10mm;margin:0.7mm auto 0}
+  .qr2-v1{left:79%;top:62.2%;width:19.5%}
+  .qr2-v1 .qr{width:9.6mm;height:9.6mm;margin:0.7mm auto 0}
+  .qr-v2{left:37%;top:71.2%;width:21%}
+  .qr-v2 .qr{width:8.5mm;height:8.5mm;margin:1mm auto 0}
+
+  /* 合格证 EAN */
+  .cert{text-align:center;display:flex;flex-direction:column}
+  .cert .cert-title{font-size:2.9mm;letter-spacing:1.1mm;text-indent:1.1mm;font-weight:500;line-height:1;margin-bottom:1.15mm;flex:none}
+  .cert .ean{flex:1 1 auto;min-height:0}
+  .cert .ean svg{width:100%;height:100%;display:block}
+  .cert-v1{left:1%;top:68.7%;width:31%;height:27.6%}
+  .cert-v2{left:1%;top:68.7%;width:31%;height:27.6%}   /* 三/四/五代合格证位置统一 */
+
+  .made-v1{right:6.3%;top:90.5%;font-size:2.1mm}
+  .meta-v2{left:63.5%;top:85.5%;font-size:2.1mm;line-height:1.4}
+
+  /* ============ 编辑模式 ============ */
+  body.editing{user-select:none}
+  body.editing .label .el{cursor:move}
+  body.editing .label [contenteditable="true"]{cursor:text;user-select:text;-webkit-user-select:text}
+  .__selbox{position:absolute;border:1px dashed #e2231a;box-sizing:border-box;
+    pointer-events:none;z-index:9999}
+  .__handle{position:absolute;width:9px;height:9px;background:#fff;border:1.5px solid #e2231a;
+    border-radius:2px;pointer-events:auto;box-sizing:border-box;padding:0}
+  .__h-n{top:-5px;left:50%;margin-left:-4.5px;cursor:ns-resize}
+  .__h-s{bottom:-5px;left:50%;margin-left:-4.5px;cursor:ns-resize}
+  .__h-w{left:-5px;top:50%;margin-top:-4.5px;cursor:ew-resize}
+  .__h-e{right:-5px;top:50%;margin-top:-4.5px;cursor:ew-resize}
+  .__h-nw{left:-5px;top:-5px;cursor:nwse-resize}
+  .__h-ne{right:-5px;top:-5px;cursor:nesw-resize}
+  .__h-sw{left:-5px;bottom:-5px;cursor:nesw-resize}
+  .__h-se{right:-5px;bottom:-5px;cursor:nwse-resize}
+  .__rot{position:absolute;left:50%;top:-22px;width:11px;height:11px;margin-left:-5.5px;
+    border-radius:50%;background:#e2231a;border:2px solid #fff;pointer-events:auto;cursor:grab;
+    box-sizing:border-box;padding:0}
+  .__rot::before{content:"";position:absolute;left:50%;top:100%;width:0;border-left:1px solid #e2231a;height:11px}
+  .__gl-v{position:absolute;top:0;bottom:0;border-left:1px dashed #2f7bff;pointer-events:none;z-index:9998}
+  .__gl-h{position:absolute;left:0;right:0;border-top:1px dashed #2f7bff;pointer-events:none;z-index:9998}
+  .toolbar .ep{font-size:12px;width:62px;padding:4px 6px}
+  .toolbar button.tbtn{padding:5px 10px;font-size:12px;font-weight:500}
+  .toolbar button.tbtn.on{background:#e2231a;font-weight:700}
+
+  /* ============ 打印 ============ */
+  @page{size:75mm 38mm;margin:0}
+  @media print{
+    body{background:#fff;margin:0;padding:0;overflow:hidden}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .toolbar,.noprint{display:none !important}
+    html{margin:0;padding:0}
+    .stage{display:block;margin:0;padding:0}
+    .panel{display:none !important;break-inside:avoid;page-break-inside:avoid}
+    .panel.print{display:flex !important;justify-content:center;page-break-after:auto;break-inside:avoid;overflow:hidden}
+    .crop{overflow:hidden !important}
+    body.printall .panel{display:flex !important;justify-content:center;page-break-after:always;break-inside:avoid}
+    body.printall .panel:last-child{page-break-after:auto}
+    body.nocrop .crop .corner{display:none}
+    [contenteditable]:hover{background:none !important;box-shadow:none !important}
+    .__selbox,.__handle,.__rot,.__gl-v,.__gl-h{display:none !important}
+  }
+  @media screen{
+    .stage{transform:scale(1.55);transform-origin:top center;margin-bottom:60px}
+    body.nocrop .crop .corner{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar noprint">
+  <h1>联想拯救者 Y700 包装盒背面标签模板（按三张实拍坐标复刻）</h1>
+  <div class="tip">
+    标签尺寸 100mm×50mm（实测原图比例 2:1），各区块位置按实拍网格逐区对齐。字段位数固定：
+    <b>S/N = 8 位</b>（HA 开头）、<b>MO = 12 位</b>（YDMH+年份2位+序列6位）、机型代码 MT = 10 位、EAN-13 = 13 位。
+    默认号码即您照片中原机数据，可在工具栏修改或随机生成；标签文字可直接点击编辑。
+  </div>
+  <div class="tabs">
+    <button data-gen="gen3" class="active">Y700 三代</button>
+    <button data-gen="gen4">Y700 四代</button>
+    <button data-gen="gen5">Y700 五代</button>
+  </div>
+  <div class="row">
+    <label>配置<select id="cfg">
+      <option value="8|128">8G+128G</option>
+      <option value="12|256">12G+256G</option>
+      <option value="16|512">16G+512G</option>
+      <option value="16|1024">16G+1TB</option>
+      <option value="24|1024">24G+1TB</option>
+    </select></label>
+    <label>颜色<select id="color"></select></label>
+    <label>月份<input type="month" id="pdate"></label>
+    <label>S/N<input class="mono" id="sn" maxlength="8" spellcheck="false" style="width:108px">
+      <span class="cnt" id="snCnt"></span></label>
+    <label>MO<input class="mono" id="mo" maxlength="12" spellcheck="false" style="width:140px">
+      <span class="cnt" id="moCnt"></span></label>
+    <button class="gray" id="btnRand" type="button">随机生成</button>
+    <label style="margin-left:auto"><input type="checkbox" id="cropChk" checked>显示裁切线</label>
+    <button id="btnPrint" type="button">打印当前</button>
+    <button class="gray" id="btnPrintAll" type="button">打印全部</button>
+  </div>
+  <div class="row" style="margin-top:10px">
+    <label>纸张
+      <select id="pgPreset">
+        <option value="75|38" selected>75×38（默认，标签自动缩放到整纸）</option>
+        <option value="106|56">标签纸 106×56（四周留 3mm）</option>
+        <option value="100|50">无边距 100×50（整版标签）</option>
+        <option value="210|297">A4 210×297（竖版）</option>
+        <option value="custom">自定义…</option>
+      </select>
+    </label>
+    <label>宽<input type="number" id="pgW" min="20" max="500" step="0.5" value="75" style="width:72px">mm</label>
+    <label>高<input type="number" id="pgH" min="20" max="500" step="0.5" value="38" style="width:72px">mm</label>
+    <span class="cnt" id="pgWarn"></span>
+    <span class="cnt" id="pdfHint" style="display:none;color:#ffd27d;max-width:420px;line-height:1.6">
+      在打印窗口中：目标选「另存为 PDF」→ 边距「无」→ 缩放「默认/100%」→ 保存即可
+    </span>
+    <span style="margin-left:auto;display:flex;gap:10px;flex-wrap:nowrap">
+      <button class="gray tbtn" id="btnTplSave" type="button">另存为模板</button>
+      <button class="gray tbtn" id="btnTplLoad" type="button">导入模板</button>
+      <input type="file" id="tplFile" accept=".json,application/json" style="display:none">
+      <button id="btnPdf" type="button">导出 PDF（当前页）</button>
+      <button class="gray" id="btnPdfAll" type="button">导出 PDF（全部 3 页）</button>
+    </span>
+  </div>
+  <div class="row" style="margin-top:10px">
+    <span class="cnt" id="editHint" style="display:inline">拖动移动（松手单击可直接改文字）；拖白控制点缩放；拖红点旋转；方向键移动（Shift 大步）、[ / ] 旋转；点击空白处取消选中</span>
+    <span id="globEd" style="display:inline-flex;margin-left:auto;align-items:center;gap:8px">
+      <label>整体缩放<input class="ep mono" type="number" id="gScale" value="100" step="1" style="width:64px">%</label>
+      <label>整体旋转<input class="ep mono" type="number" id="gRot" value="0" step="1" style="width:64px">°</label>
+      <button class="gray tbtn" id="gSwap" type="button">交换纸张宽高</button>
+      <button class="gray tbtn" id="gReset" type="button">变换复位</button>
+    </span>
+  </div>
+  <div class="row" id="editRow" style="display:flex;margin-top:10px;align-items:center;gap:8px 12px">
+    <b id="modName" style="color:#ffd27d;font-size:13px"></b>
+    <span id="editFields" style="display:none;align-items:center;gap:8px 12px;flex-wrap:wrap">
+      <label>X<input class="ep mono" type="number" id="pX" step="0.1">mm</label>
+      <label>Y<input class="ep mono" type="number" id="pY" step="0.1">mm</label>
+      <label>宽<input class="ep mono" type="number" id="pW" step="0.1">mm</label>
+      <label>高<input class="ep mono" type="number" id="pH" step="0.1">mm</label>
+      <label>旋转<input class="ep mono" type="number" id="pRot" step="1">°</label>
+      <span id="fontEd" style="display:none;align-items:center;gap:8px;flex-wrap:wrap">
+        <label>字体
+          <select id="pFf" class="ep" style="width:128px">
+            <option value="">默认</option>
+            <option value='"Microsoft YaHei","微软雅黑",sans-serif'>微软雅黑</option>
+            <option value='SimSun,"宋体",serif'>宋体</option>
+            <option value='SimHei,"黑体",sans-serif'>黑体</option>
+            <option value='KaiTi,"楷体",serif'>楷体</option>
+            <option value='"PingFang SC","苹方",sans-serif'>苹方</option>
+            <option value='Arial,Helvetica,sans-serif'>Arial</option>
+            <option value='"Times New Roman",Times,serif'>Times New Roman</option>
+            <option value='Consolas,"Courier New",monospace'>Consolas</option>
+          </select>
+        </label>
+        <label>字号<input class="ep mono" type="number" id="pFs" step="0.05" style="width:60px">mm</label>
+        <button class="gray tbtn" id="pBold" type="button" style="font-weight:800">B</button>
+      </span>
+      <span style="display:flex;gap:6px">
+        <button class="gray tbtn" data-z="top" type="button">置顶</button>
+        <button class="gray tbtn" data-z="up" type="button">上移</button>
+        <button class="gray tbtn" data-z="down" type="button">下移</button>
+        <button class="gray tbtn" data-z="bottom" type="button">置底</button>
+      </span>
+      <span id="qrEd" style="display:none;align-items:center;gap:8px;flex-wrap:wrap">
+        <label class="tbtn" style="background:#e2231a;color:#fff;border-radius:6px;padding:5px 10px;cursor:pointer;font-size:12px">
+          更换二维码图片<input type="file" id="qrFile" accept="image/*" style="display:none">
+        </label>
+        <input class="mono" id="qrText" placeholder="或输入内容重新生成二维码" spellcheck="false" style="background:#1f232c;color:#e8eaee;border:1px solid #4a5262;border-radius:6px;padding:5px 8px;font-size:12px;width:230px">
+        <button class="gray tbtn" id="qrGen" type="button">生成</button>
+        <button class="gray tbtn" id="qrRestore" type="button">恢复默认码</button>
+      </span>
+      <button class="gray tbtn" id="pReset" type="button">复位本模块</button>
+      <button class="gray tbtn" id="pResetAll" type="button" style="margin-left:auto">复位全部模块（含纸张/整体变换）</button>
+    </span>
+  </div>
+</div>
+
+<div class="stage" id="stage"></div>
+
+<script>
+/* ==================== 实测数据 ==================== */
+const VIN='输入电压/电流：11V \u2393 6.2A';
+const MFR='制造商：联想（北京）有限公司';
+const ADDR='地址：北京市海淀区上地西路6号2幢2层201-H2-6';
+
+/* spec 顺序：gen3 在中下方 7 行；gen4/5 在右侧，地址换行成两行 */
+const SPEC3=['型号：TB321FU','品名：平板电脑','核准代码：24J11874Y666',
+  '执行标准号：Q/HDLCS 0122-2017',MFR,ADDR,VIN];
+const SPEC4=['型号：TB322FC','品名：平板电脑','核准代码：25J11874T010',
+  '执行标准号：Q/HDLCS 0122-2017',VIN,MFR,'地址：北京市海淀区上地西路6号2幢','2层201-H2-6'];
+const SPEC5=['型号：TB323FU','品名：平板电脑','核准代码：25J11874T026',
+  '执行标准号：Q/HDLCS 0122-2025',VIN,MFR,'地址：北京市海淀区上地西路6号2幢','2层201-H2-6'];
+
+const DATA={
+  gen3:{
+    title:'拯救者平板 Y700', variant:1,
+    model:'TB321FU', mt:'ZAEF0058CN',
+    ram:'16',rom:'512',cc:'WH',
+    colors:[['WH','GLACIER WHITE'],['BL','ECLIPSE BLACK']],
+    sn:'HA26PBH1', mo:'YDMH253270LP', ean:'6942292189237',
+    date:'2025-03', specs:SPEC3,
+    qrTop:{cap:'微信扫码 售后无忧'}, qrBot:{cap:'ZUI官方公众号'}
+  },
+  gen4:{
+    title:'拯救者平板 Y700 四代', variant:2,
+    model:'TB322FC', mt:'ZAG40002CN',
+    ram:'16',rom:'512',cc:'BL',
+    colors:[['BL','碳晶黑'],['WH','冰魄白'],['PU','星光紫']],
+    sn:'HA2EDC92', mo:'YDMH25B2740P', ean:'6936282531823',
+    date:'2026-06', specs:SPEC4,
+    qrMid:{cap:'微信扫码 售后无忧'}
+  },
+  gen5:{
+    title:'联想平板 拯救者 Y700 五代', variant:2,
+    model:'TB323FU', mt:'ZAH20097CN',
+    ram:'12',rom:'256',cc:'BL',
+    colors:[['BL','碳晶黑'],['WH','冰魄白'],['PU','星光紫']],
+    sn:'HA2KJKCQ', mo:'YDMH26626G2P', ean:'6936282578521',
+    date:'2026-06', specs:SPEC5,
+    qrMid:{cap:'享服务 想帮帮'}
+  }
+};
+
+/* ==================== 骨架（坐标单位为标签 %，见 CSS） ==================== */
+function specLines(lines){
+  return lines.map(t=>`<div contenteditable="true">${t}</div>`).join('');
+}
+function labelHTML(gen){
+  const d=DATA[gen];
+  const head=`
+    <div class="el el-title ${d.variant===1?'title-v1':''}" contenteditable="true">${d.title}</div>
+    <div class="el el-cfgrow">
+      <span class="js-cfg"></span><span class="js-col"></span><span>WIFI</span>
+      ${d.variant===1?'<span class="js-date"></span>':''}
+    </div>
+    <div class="el el-line"></div>`;
+
+  const bars=`
+    <div class="el cap cap1 js-c1"></div><div class="el bc bc1"><svg class="js-b1"></svg></div>
+    <div class="el cap cap2 js-c2"></div><div class="el bc bc2"><svg class="js-b2"></svg></div>
+    <div class="el cap cap3 js-c3"></div><div class="el bc bc3"><svg class="js-b3"></svg></div>`;
+
+  const cert=`
+    <div class="el cert ${d.variant===1?'cert-v1':'cert-v2'}">
+      <div class="cert-title">合格证</div>
+      <div class="ean"><svg class="js-ean"></svg></div>
+    </div>`;
+
+  /* 只构建当前代际对应的变体，避免引用不存在的字段 */
+  let body;
+  if(d.variant===1){
+    body=`
+    ${bars}
+    <div class="el spec spec-v1">${specLines(d.specs)}</div>
+    <div class="el qrbox qr1-v1">
+      <div class="qcap" contenteditable="true">${d.qrTop.cap}</div>
+      <div class="qr js-qr" data-k="top"></div>
+    </div>
+    <div class="el qrbox qr2-v1">
+      <div class="qcap" contenteditable="true">${d.qrBot.cap}</div>
+      <div class="qr js-qr" data-k="bot"></div>
+    </div>
+    ${cert}
+    <div class="el made-v1">中国制造</div>`;
+  }else{
+    body=`
+    ${bars}
+    <div class="el spec spec-v2">${specLines(d.specs)}</div>
+    ${cert}
+    <div class="el qrbox qr-v2">
+      <div class="qcap" contenteditable="true">${d.qrMid.cap}</div>
+      <div class="qr js-qr" data-k="mid"></div>
+    </div>
+    <div class="el meta-v2">
+      <div class="js-date"></div><div>中国制造</div>
+    </div>`;
+  }
+
+  return `<div class="crop">
+    <span class="corner c-tl"></span><span class="corner c-tr"></span>
+    <span class="corner c-bl"></span><span class="corner c-br"></span>
+    <div class="label" data-gen="${gen}">${head}${body}</div>
+  </div>`;
+}
+
+/* ==================== 一维条码 ==================== */
+function fake1D(svgEl,text,ratio){
+  let h=0;for(let i=0;i<text.length;i++)h=(h*31+text.charCodeAt(i))>>>0;
+  const N=120;let x=0,r='';
+  while(x<N){const w=1+(h>>((x*7)%24)&3);
+    if(((x*13+h)&7)<4)r+=`<rect x="${x}" y="0" width="${w}" height="100"/>`;
+    x+=w+1+((x*5+h)%2);}
+  const H=ratio?Math.round(N/ratio):100;
+  svgEl.innerHTML=`<rect width="${N}" height="${H}" fill="#fff"/><g fill="#000">${r}</g>`;
+  svgEl.setAttribute('viewBox',`0 0 ${N} ${H}`);
+  if(ratio)svgEl.setAttribute('preserveAspectRatio','xMidYMid meet');
+  else svgEl.setAttribute('preserveAspectRatio','none');
+}
+function drawCode128(svgEl,text){
+  if(window.JsBarcode){try{
+    JsBarcode(svgEl,text,{format:'CODE128',height:100,width:2,displayValue:false,
+      margin:0,background:'#fff',lineColor:'#000'});
+    svgEl.setAttribute('preserveAspectRatio','none');
+    svgEl.removeAttribute('height');svgEl.removeAttribute('width');
+    return;
+  }catch(e){}}
+  fake1D(svgEl,text);
+}
+function drawEAN(svgEl,code){
+  if(window.JsBarcode){try{
+    JsBarcode(svgEl,code,{format:'EAN13',height:54,width:2,displayValue:false,
+      margin:0,background:'#fff',lineColor:'#000'});
+    /* JsBarcode 默认把前导数字放在静区中部（离护线过远，与实拍不符）。
+       按条纹护线的实测几何自绘 13 位数字，并平移 viewBox，使条纹几何
+       中心与容器（合格证标题）中心重合——标题、条码永远同心。 */
+    const NS='http://www.w3.org/2000/svg';
+    /* 数据条缩短、护线条保持满高；数字顶部轻微压入数据条底部。
+       JsBarcode 把护线条渲染得比数据条高约12单位，据此区分。
+       EAN13（width:2, margin:0）根坐标系几何固定：0..190。 */
+    const BARH_DATA=48, BARH_GUARD=54, BAR_Y=-7, x1=0, x2=190, mw=2;
+    [...svgEl.querySelectorAll('rect')].forEach(r=>{
+      if(+r.getAttribute('width')>50){r.remove();return;}
+      const h=+r.getAttribute('height');
+      r.setAttribute('y',String(BAR_Y));
+      r.setAttribute('height', h>60 ? String(BARH_GUARD) : String(BARH_DATA));
+    });
+    const fs=15;                                // 数字字高，按实拍比例
+    const baseY=58;                             // 基线：数字顶部≈47，与上移后护线底(-7+54=47)齐平
+    const H=70, Y0=BAR_Y;
+    const cx=(x1+x2)/2;                         // 条纹几何中心
+    const leadX=x1-mw*3.6;                      // 前导数字中心（实测≈3.6模块）
+    const xs=[leadX];
+    for(let i=0;i<6;i++)xs.push(x1+mw*(6.5+7*i));
+    for(let i=0;i<6;i++)xs.push(x1+mw*(51.5+7*i));
+    const g=document.createElementNS(NS,'g');
+    g.setAttribute('fill','#000');
+    g.setAttribute('font-family','Consolas,"Courier New",monospace');
+    g.setAttribute('font-size',fs);
+    g.setAttribute('text-anchor','middle');
+    code.split('').forEach((ch,i)=>{
+      const t=document.createElementNS(NS,'text');
+      t.setAttribute('x',xs[i]);t.setAttribute('y',baseY);
+      t.textContent=ch;g.appendChild(t);
+    });
+    svgEl.appendChild(g);
+    /* viewBox 水平以条纹为中心：左容前导数字、右留等量白，meet 等比不压字形 */
+    const half=Math.max(cx-(leadX-fs*0.55),(x2+mw*3)-cx);
+    svgEl.setAttribute('viewBox',`${cx-half} ${Y0} ${half*2} ${H}`);
+    svgEl.setAttribute('preserveAspectRatio','xMidYMid meet');
+    svgEl.removeAttribute('height');svgEl.removeAttribute('width');
+    return;
+  }catch(e){}}
+  fake1D(svgEl,code,2.8);
+}
+
+/* ==================== 二维码 ==================== */
+function hashStr(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+function fakeQR(el,text){
+  const N=25,h=hashStr(text);let cells='';
+  const inf=(x,y)=>(x<7&&y<7)||(x>=N-7&&y<7)||(x<7&&y>=N-7);
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++){let on=false;
+    if(inf(x,y)){const fx=x>=N-7?x-(N-7):x,fy=y>=N-7?y-(N-7):y;
+      on=(fx===0||fx===6||fy===0||fy===6)||(fx>=2&&fx<=4&&fy>=2&&fy<=4);
+    }else if(((x*11+y*7+h)>>((x+y)%17))&1){on=((x^y^h)>>(x%5))&1;}
+    if(on)cells+=`<rect x="${x}" y="${y}" width="1" height="1"/>`;}
+  el.innerHTML=`<svg viewBox="-1 -1 ${N+2} ${N+2}" preserveAspectRatio="xMidYMid meet"
+    xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+    <rect x="-1" y="-1" width="${N+2}" height="${N+2}" fill="#fff"/><g fill="#000">${cells}</g></svg>`;
+}
+function drawQR(el,text){
+  if(window.qrcode){try{
+    const q=qrcode(0,'M');q.addData(text);q.make();
+    el.innerHTML=q.createSvgTag({cellSize:2,margin:1,scalable:true});
+    const s=el.querySelector('svg');s.style.width='100%';s.style.height='100%';return;
+  }catch(e){}}
+  fakeQR(el,text);
+}
+
+/* ==================== 固定位数 ==================== */
+const SN_LEN=8, MO_LEN=12;
+const CH='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+const rc=n=>{let s='';for(let i=0;i<n;i++)s+=CH[Math.floor(Math.random()*CH.length)];return s;};
+const randSN=()=>'HA'+rc(6);                          /* 8 位 */
+const randMO=yy=>'YDMH'+yy+rc(6);                    /* 4+2+6 = 12 位 */
+
+let curGen='gen3';
+const stage=document.getElementById('stage');
+const $=id=>document.getElementById(id);
+const cfgEl=$('cfg'),colorEl=$('color'),dateEl=$('pdate'),snEl=$('sn'),moEl=$('mo'),
+      snCnt=$('snCnt'),moCnt=$('moCnt');
+
+function buildStage(){
+  stage.innerHTML=Object.keys(DATA).map(g=>
+    `<div class="panel ${g===curGen?'active':''}" data-gen="${g}">${labelHTML(g)}</div>`).join('');
+  syncControls();refreshAll();
+}
+function syncControls(){
+  const d=DATA[curGen];
+  colorEl.innerHTML=d.colors.map(c=>`<option value="${c[0]}">${c[1]}</option>`).join('');
+  cfgEl.value=`${d.ram}|${d.rom}`;colorEl.value=d.cc;
+  dateEl.value=d.date;snEl.value=d.sn;moEl.value=d.mo;
+}
+function refreshPanel(panel){
+  const d=DATA[panel.dataset.gen];
+  const [ram,rom]=cfgEl.value.split('|'),cc=colorEl.value;
+  const colName=colorEl.options[colorEl.selectedIndex]?.text||'';
+  const sn=(snEl.value||'').padEnd(SN_LEN,'X').slice(0,SN_LEN);
+  const mo=(moEl.value||'').padEnd(MO_LEN,'X').slice(0,MO_LEN);
+  const [Y,M]=(dateEl.value||d.date).split('-');
+
+  const romStr=+rom>=1024?`${rom/1024}TB`:`${rom}G`;
+  panel.querySelector('.js-cfg').textContent=`${d.model} TAB ${ram}G+${romStr}${cc}-CN`;
+  panel.querySelector('.js-col').textContent=colName;
+  const dt=panel.querySelector('.js-date');
+  if(dt)dt.textContent=`日期：${Y}年${M}月`;
+
+  panel.querySelector('.js-c1').textContent=`S/N: ${sn}  MO: ${mo}`;
+  panel.querySelector('.js-c2').textContent=`(1S)${d.mt}  S/N: ${sn}`;
+  panel.querySelector('.js-c3').textContent=`S/N ${sn}`;
+  drawCode128(panel.querySelector('.js-b1'),sn+mo);
+  drawCode128(panel.querySelector('.js-b2'),'1S'+d.mt+sn);
+  drawCode128(panel.querySelector('.js-b3'),sn);
+  drawEAN(panel.querySelector('.js-ean'),d.ean);
+  panel.querySelectorAll('.js-qr').forEach(el=>
+    drawQR(el,'https://newsupport.lenovo.com.cn/?sn='+sn));
+}
+function refreshAll(){
+  snCnt.textContent=`${snEl.value.length}/${SN_LEN}`;
+  moCnt.textContent=`${moEl.value.length}/${MO_LEN}`;
+  snCnt.style.color=snEl.value.length===SN_LEN?'#7f8a9d':'#ff8a80';
+  moCnt.style.color=moEl.value.length===MO_LEN?'#7f8a9d':'#7f8a9d';
+  document.querySelectorAll('.panel').forEach(refreshPanel);
+  if(typeof applyAllEdits==='function')applyAllEdits();   /* 重绘后恢复编辑器覆盖（自定义二维码等） */
+}
+
+/* ==================== 事件 ==================== */
+document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');curGen=b.dataset.gen;
+  document.querySelectorAll('.panel').forEach(p=>
+    p.classList.toggle('active',p.dataset.gen===curGen));
+  syncControls();refreshAll();
+}));
+[cfgEl,colorEl,dateEl].forEach(el=>el.addEventListener('input',refreshAll));
+[cfgEl,colorEl,dateEl].forEach(el=>el.addEventListener('change',refreshAll));
+snEl.addEventListener('input',()=>{
+  snEl.value=snEl.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,SN_LEN);refreshAll();});
+moEl.addEventListener('input',()=>{
+  moEl.value=moEl.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,MO_LEN);refreshAll();});
+$('btnRand').addEventListener('click',()=>{
+  snEl.value=randSN();moEl.value=randMO((dateEl.value||DATA[curGen].date).slice(2,4));refreshAll();});
+$('cropChk').addEventListener('change',e=>document.body.classList.toggle('nocrop',!e.target.checked));
+/* ============ 自定义纸张尺寸（动态覆盖 @page，屏幕裁切框同步；持久化） ============ */
+const LS_KEY='y700-label-editor-v1';
+const pageStyle=document.createElement('style');pageStyle.id='dynPage';document.head.appendChild(pageStyle);
+const pgW=$('pgW'),pgH=$('pgH'),pgPreset=$('pgPreset'),pgWarn=$('pgWarn');
+function syncPresetSel(){
+  const v=parseFloat(pgW.value)+'|'+parseFloat(pgH.value);
+  pgPreset.value=[...pgPreset.options].some(o=>o.value===v)?v:'custom';
+}
+/* 纸张=真实页面尺寸（固定），标签作为内容在其中自动等比缩放居中；
+   fit=min(pw/100,ph/50)，再乘用户的手动整体缩放 G.s */
+function fitScale(){
+  const w=parseFloat(pgW.value),h=parseFloat(pgH.value);
+  if(!(w>=20)||!(h>=20))return 1;
+  return Math.min(w/100,h/50);
+}
+function applyPage(){
+  const w=parseFloat(pgW.value),h=parseFloat(pgH.value);
+  if(!(w>=20)||!(h>=20))return;
+  pageStyle.textContent=
+    `@page{size:${w}mm ${h}mm;margin:0}\n`+
+    `@media screen{.stage .crop{width:${w}mm;height:${h}mm}}\n`+
+    `@media print{.crop{width:${w}mm !important;height:${h}mm !important}}`;
+  try{applyGlobal();}catch(e){}   /* 初始化早期 G 尚未声明，提示由 initEditor 再刷 */
+}
+pgW.addEventListener('input',()=>{syncPresetSel();applyPage();writeStore();});
+pgH.addEventListener('input',()=>{syncPresetSel();applyPage();writeStore();});
+pgPreset.addEventListener('change',()=>{
+  if(pgPreset.value==='custom')return;
+  const [w,h]=pgPreset.value.split('|');pgW.value=w;pgH.value=h;applyPage();writeStore();});
+/* 打开页面即恢复上次纸张，保证输入框显示与实际纸张、全局变换始终同步 */
+try{
+  const st0=JSON.parse(localStorage.getItem(LS_KEY)||'{}');
+  if(st0.P&&st0.P.w>=20&&st0.P.h>=20){pgW.value=st0.P.w;pgH.value=st0.P.h;}
+}catch(e){}
+syncPresetSel();
+applyPage();
+
+/* all=false 仅当前页，true 全部 3 页；同一套矢量管线可直打或另存 PDF */
+function doPrint(all){
+  document.body.classList.toggle('printall',!!all);
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('print'));
+  if(!all)document.querySelector(`.panel[data-gen="${curGen}"]`).classList.add('print');
+  window.print();
+}
+$('btnPrint').addEventListener('click',()=>doPrint(false));
+$('btnPrintAll').addEventListener('click',()=>doPrint(true));
+$('btnPdf').addEventListener('click',()=>{$('pdfHint').style.display='inline';doPrint(false);});
+$('btnPdfAll').addEventListener('click',()=>{$('pdfHint').style.display='inline';doPrint(true);});
+window.addEventListener('afterprint',()=>{
+  document.body.classList.remove('printall');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('print'));
+  setTimeout(()=>{$('pdfHint').style.display='none';},10000);});
+
+/* ==================================================================
+   可视化编辑器：拖动 / 缩放 / 旋转 / 字号加粗 / 图层 / 磁吸 / 换二维码
+   覆盖数据以 mm（标签 100×50）为单位存 localStorage，刷新与重绘不丢失
+================================================================== */
+const MOD_DEFS=[
+  ['title','.el-title'],['cfg','.el-cfgrow'],['line','.el-line'],
+  ['cap1','.cap1'],['bc1','.bc1'],['cap2','.cap2'],['bc2','.bc2'],
+  ['cap3','.cap3'],['bc3','.bc3'],['spec','.spec'],
+  ['qr1','.qr1-v1,.qr-v2'],['qr2','.qr2-v1'],['cert','.cert'],['made','.made-v1,.meta-v2'],
+];
+const MOD_NAME={title:'产品标题',cfg:'型号配置行',line:'黑分隔线',cap1:'条码1文字',bc1:'条码1',
+  cap2:'条码2文字',bc2:'条码2',cap3:'条码3文字',bc3:'条码3',spec:'参数说明区',
+  qr1:'二维码1',qr2:'二维码2',cert:'合格证（含EAN）',made:'中国制造/日期'};
+const FONT_KEYS=new Set(['title','cfg','cap1','cap2','cap3','spec','qr1','qr2','cert','made']);
+const HTMLNS='http://www.w3.org/1999/xhtml';
+const SNAP=1.5;                       // 磁吸阈值 mm
+let ED={},G={s:100,r:0};
+try{const s=JSON.parse(localStorage.getItem(LS_KEY)||'{}');ED=s.ED||{};G=Object.assign({s:100,r:0},s.G);}catch(e){}
+let saveTimer=null;
+/* 统一持久化：模块编辑 ED + 全局变换 G + 纸张 P */
+function writeStore(){clearTimeout(saveTimer);saveTimer=setTimeout(()=>{
+  try{localStorage.setItem(LS_KEY,JSON.stringify({
+    ED,G,P:{w:parseFloat(pgW.value)||75,h:parseFloat(pgH.value)||38}}));}catch(e){}},200);}
+function saveED(){writeStore();}
+
+function tagAllModules(){
+  document.querySelectorAll('.panel').forEach(p=>MOD_DEFS.forEach(([k,sel])=>{
+    const el=p.querySelector(sel);if(el)el.dataset.mod=k;
+  }));
+}
+/* ---- 坐标换算：整体变换作用在 .label 上，用逆矩阵+布局盒映射到标签本地 mm ---- */
+function mmAt(e,label){
+  const dm=v=>v==='none'?new DOMMatrix():new DOMMatrix(v);
+  /* 屏幕→标签布局：级联舞台缩放与标签自身变换 */
+  const M=dm(getComputedStyle(stage).transform).multiply(dm(getComputedStyle(label).transform));
+  const r=label.getBoundingClientRect();
+  const w=label.offsetWidth,h=label.offsetHeight;  /* 未变换布局尺寸(px) */
+  const half=M.transformPoint(new DOMPoint(w/2,h/2));
+  const ox=r.left+r.width/2-half.x, oy=r.top+r.height/2-half.y;
+  const p=new DOMPoint(e.clientX-ox,e.clientY-oy).matrixTransform(M.inverse());
+  return {x:p.x/w*100,y:p.y/h*50};
+}
+/* offset 布局度量，天然不受 label 缩放/旋转影响 */
+function boxMM(el,label){
+  return {x:el.offsetLeft/label.offsetWidth*100,y:el.offsetTop/label.offsetHeight*50,
+          w:el.offsetWidth/label.offsetWidth*100,h:el.offsetHeight/label.offsetHeight*50};
+}
+
+function applyStyle(el,ov){
+  const key=el.dataset.mod;
+  el.style.transform=ov.rot?`rotate(${ov.rot}deg)`:'';
+  el.style.transformOrigin='50% 50%';
+  if(ov.z!=null)el.style.zIndex=ov.z;
+  if(key==='line'){
+    el.style.left=ov.x+'%';el.style.top=(ov.y*2)+'%';el.style.width=ov.w+'%';
+    el.style.borderTopWidth=Math.max(.1,ov.h)+'mm';
+  }else{
+    el.style.left=ov.x+'%';el.style.top=(ov.y*2)+'%';
+    el.style.width=ov.w+'%';el.style.height=(ov.h*2)+'%';
+    el.style.right='auto';el.style.bottom='auto';
+  }
+  if(FONT_KEYS.has(key)){
+    if(ov.ffTouched&&ov.ff){
+      el.style.fontFamily=ov.ff;
+      el.querySelectorAll('*').forEach(c=>{if(c.namespaceURI===HTMLNS)c.style.fontFamily='inherit';});
+    }
+    if(ov.fsTouched){
+      el.style.fontSize=ov.fs+'mm';
+      el.querySelectorAll('*').forEach(c=>{if(c.namespaceURI===HTMLNS)c.style.fontSize='inherit';});
+    }
+    if(ov.boldTouched){
+      el.style.fontWeight=ov.bold?'700':'';
+      el.querySelectorAll('*').forEach(c=>{if(c.namespaceURI===HTMLNS)c.style.fontWeight='inherit';});
+    }
+  }
+}
+function applyQR(el,ov){
+  const q=el.querySelector('.qr');if(!q)return;
+  if(ov.qrImg)q.innerHTML=`<img src="${ov.qrImg}" style="width:100%;height:100%;object-fit:contain;display:block">`;
+  else if(ov.qrText)drawQR(q,ov.qrText);
+}
+function applyAllEdits(){
+  tagAllModules();
+  document.querySelectorAll('.panel').forEach(p=>{const gen=p.dataset.gen;
+    MOD_DEFS.forEach(([k])=>{const el=p.querySelector(`[data-mod="${k}"]`);if(!el)return;
+      const ov=ED[gen]&&ED[gen][k];if(!ov)return;
+      applyStyle(el,ov);
+      if(ov.qrImg||ov.qrText)applyQR(el,ov);});});
+}
+
+/* ==================== 选择与交互 ==================== */
+let cur=null;     // {el,label,ov,ui}
+/* 可直接点进去改文字的模块；含图形的（二维码/合格证）只编辑文字子元素 */
+const INLINE_EDIT=new Set(['title','cfg','cap1','cap2','cap3','spec','made','qr1','qr2','cert']);
+function ensureOv(el){
+  const label=el.closest('.label'),gen=label.dataset.gen,k=el.dataset.mod;
+  ED[gen]=ED[gen]||{};
+  if(ED[gen][k])return ED[gen][k];
+  const b=boxMM(el,label);
+  const ov={x:+b.x.toFixed(2),y:+b.y.toFixed(2),w:+b.w.toFixed(2),h:+b.h.toFixed(2),rot:0,
+    z:parseInt(getComputedStyle(el).zIndex)||0};
+  if(FONT_KEYS.has(k)){
+    ov.ff=getComputedStyle(el).fontFamily;
+    ov.fs=+(getComputedStyle(el).fontSize.slice(0,-2)*25.4/96).toFixed(2);
+    ov.bold=parseInt(getComputedStyle(el).fontWeight)>=600;
+    ov.ffTouched=false;ov.fsTouched=false;ov.boldTouched=false;  /* 未触碰不改写，避免选中即变样 */
+  }
+  ED[gen][k]=ov;return ov;
+}
+function buildEditUI(label){
+  label.querySelectorAll('.__selbox,.__gl-v,.__gl-h').forEach(n=>n.remove());
+  const gv=document.createElement('div');gv.className='__gl-v';gv.style.display='none';
+  const gh=document.createElement('div');gh.className='__gl-h';gh.style.display='none';
+  const box=document.createElement('div');box.className='__selbox';
+  box.innerHTML=['nw','n','ne','e','se','s','sw','w']
+    .map(d=>`<i class="__handle __h-${d}" data-d="${d}"></i>`).join('')
+    +'<i class="__rot" data-d="rot"></i>';
+  label.append(gv,gh,box);
+  return {box,gv,gh};
+}
+function renderSel(){
+  if(!cur)return;const{el,label,ov,ui}=cur;
+  ui.box.style.left=ov.x+'%';ui.box.style.top=(ov.y*2)+'%';
+  ui.box.style.width=ov.w+'%';ui.box.style.height=(ov.h*2)+'%';
+  ui.box.style.transform=ov.rot?`rotate(${ov.rot}deg)`:'';
+}
+function hideGuides(){if(cur){cur.ui.gv.style.display='none';cur.ui.gh.style.display='none';}}
+function showGuide(axis,v){const g=axis==='x'?cur.ui.gv:cur.ui.gh;
+  g.style.display='block';
+  if(axis==='x')g.style.left=v+'%';else g.style.top=(v*2)+'%';}
+function peersBoxes(){
+  const{label}=cur;
+  return [...label.querySelectorAll(':scope > .el')].filter(el=>el!==cur.el).map(el=>{
+    const ov=ED[label.dataset.gen]&&ED[label.dataset.gen][el.dataset.mod];
+    return(ov&&!ov.rot)?{x:ov.x,y:ov.y,w:ov.w,h:ov.h}:boxMM(el,label);
+  });
+}
+/* 移动时磁吸：画面中线/边缘 + 其他模块的边与中心 */
+function snapMove(){
+  const{ov}=cur,peers=peersBoxes();let best=null;
+  const xa=[ov.x,ov.x+ov.w/2,ov.x+ov.w];
+  const xt=[0,50,100].concat(...peers.map(p=>[p.x,p.x+p.w/2,p.x+p.w]));
+  xa.forEach(av=>xt.forEach(tv=>{const d=tv-av;
+    if(Math.abs(d)<=SNAP&&(!best||Math.abs(d)<Math.abs(best.d)))best={d,ax:'x',tv};}));
+  const ya=[ov.y,ov.y+ov.h/2,ov.y+ov.h];
+  const yt=[0,25,50].concat(...peers.map(p=>[p.y,p.y+p.h/2,p.y+p.h]));
+  ya.forEach(av=>yt.forEach(tv=>{const d=tv-av;
+    if(Math.abs(d)<=SNAP&&(!best||Math.abs(d)<Math.abs(best.d)))best={d,ax:'y',tv};}));
+  hideGuides();
+  if(best){if(best.ax==='x'){ov.x=+(ov.x+best.d).toFixed(2);showGuide('x',best.tv);}
+    else{ov.y=+(ov.y+best.d).toFixed(2);showGuide('y',best.tv);}}
+}
+/* 缩放时被拖边的磁吸 */
+function snapEdge(axis,val){
+  const peers=peersBoxes();
+  const ts=axis==='x'?[0,100].concat(...peers.map(p=>[p.x,p.x+p.w]))
+                     :[0,50].concat(...peers.map(p=>[p.y,p.y+p.h]));
+  let bd=SNAP+1,tv=null;
+  ts.forEach(t=>{const d=t-val;if(Math.abs(d)<=SNAP&&Math.abs(d)<Math.abs(bd)){bd=d;tv=t;}});
+  if(tv!=null){showGuide(axis,tv);return bd;}
+  return 0;
+}
+
+function select(el){
+  const label=el.closest('.label');
+  cur={el,label,ov:ensureOv(el),ui:buildEditUI(label)};
+  applyStyle(el,cur.ov);renderSel();syncProps();
+}
+function deselect(){
+  if(cur)cur.label.querySelectorAll('.__selbox,.__gl-v,.__gl-h').forEach(n=>n.remove());
+  cur=null;
+  $('modName').textContent='';$('editFields').style.display='none';
+}
+
+stage.addEventListener('pointerdown',e=>{
+  if(!document.body.classList.contains('editing'))return;
+  const label=e.target.closest('.label');
+  if(!label){deselect();return;}
+  const ctl=e.target.closest('.__handle,.__rot');
+  if(ctl&&cur&&cur.label===label){e.preventDefault();e.stopPropagation();
+    startGesture(e,ctl.dataset.d);return;}
+  const el=e.target.closest('.el');
+  if(!el||el.closest('.label')!==label){deselect();return;}
+  if(el.isContentEditable)return;
+  /* INLINE_EDIT 模块不阻止默认动作，确保后续 focus() 能生效 */
+  if(!INLINE_EDIT.has(el.dataset.mod))e.preventDefault();
+  select(el);startGesture(e,'move');
+});
+/* 纯文本模块：点击（未拖动）直接进入编辑，光标落在点击处 */
+function enterInlineEdit(el,e){
+  if(!INLINE_EDIT.has(el.dataset.mod))return;
+  /* 含图形的模块（二维码/合格证）只编辑文字子元素，避免误删 SVG */
+  var target=el;
+  var child=el.querySelector('.qcap,.cert-title');
+  if(child)target=child;
+  target.setAttribute('contenteditable','true');target.focus();
+  if(e&&document.caretRangeFromPoint){
+    const r=document.caretRangeFromPoint(e.clientX,e.clientY);
+    if(r&&target.contains(r.startContainer)){const sel=getSelection();sel.removeAllRanges();sel.addRange(r);}
+  }
+  const off=()=>{
+    if(target.dataset.ce)target.setAttribute('contenteditable','false');
+    else target.removeAttribute('contenteditable');
+    target.removeEventListener('blur',off);};
+  target.addEventListener('blur',off);
+}
+function startGesture(e,dir){
+  const{el,label}=cur;
+  const st=mmAt(e,label),ov0=Object.assign({},cur.ov);
+  let moved=false,sx=e.clientX,sy=e.clientY;
+  const mv=ev=>{
+    ev.preventDefault();
+    if(Math.hypot(ev.clientX-sx,ev.clientY-sy)>8)moved=true;
+    const p=mmAt(ev,label),dx=p.x-st.x,dy=p.y-st.y;
+    const ov=cur.ov,key=el.dataset.mod;
+    const minW=key==='line'?5:2,minH=key==='line'?.1:1;
+    if(dir==='move'){ov.x=ov0.x+dx;ov.y=ov0.y+dy;snapMove();}
+    else if(dir==='rot'){
+      const cx=ov0.x+ov0.w/2,cy=ov0.y+ov0.h/2;
+      let deg=Math.atan2(p.y-cy,p.x-cx)*180/Math.PI+90;
+      [0,90,180,270,-90,-180,-270].forEach(q=>{if(Math.abs(deg-q)<6)deg=q;});
+      ov.rot=+deg.toFixed(1);hideGuides();
+    }else{
+      hideGuides();
+      if(dir.includes('e')){let d=snapEdge('x',ov0.x+ov0.w+dx);ov.w=Math.max(minW,ov0.w+dx+d);}
+      if(dir.includes('w')){
+        const d=snapEdge('x',ov0.x+dx);
+        let nx=ov0.x+dx+d,nw=ov0.x+ov0.w-nx;
+        if(nw<minW){nw=minW;nx=ov0.x+ov0.w-minW;}      /* 超最小宽度时夹住左边 */
+        ov.x=+nx.toFixed(2);ov.w=+nw.toFixed(2);
+      }
+      if(dir.includes('s')){let d=snapEdge('y',ov0.y+ov0.h+dy);ov.h=Math.max(minH,ov0.h+dy+d);}
+      if(dir.includes('n')){let d=snapEdge('y',ov0.y+dy);
+        const nh=Math.max(minH,ov0.h-dy-d);ov.h=nh;ov.y=ov0.y+ov0.h-nh;}
+    }
+    applyStyle(el,ov);renderSel();syncProps();
+  };
+  const up=ev=>{window.removeEventListener('pointermove',mv);
+    window.removeEventListener('pointerup',up);hideGuides();saveED();
+    if(dir==='move'&&!moved)enterInlineEdit(el,ev);};
+  window.addEventListener('pointermove',mv,{passive:false});
+  window.addEventListener('pointerup',up);
+}
+
+/* ==================== 属性面板 ==================== */
+const $p=id=>$(id);
+function setNum(id,v){if(document.activeElement!==$(id))$(id).value=(+v).toFixed(2).replace(/\.?0+$/,'');}
+function syncProps(){
+  if(!cur)return;
+  const{ov,el}=cur,k=el.dataset.mod;
+  $('modName').textContent='已选：'+MOD_NAME[k];
+  $('editFields').style.display='inline-flex';
+  setNum('pX',ov.x);setNum('pY',ov.y);setNum('pW',ov.w);setNum('pH',ov.h);setNum('pRot',ov.rot||0);
+  $('fontEd').style.display=FONT_KEYS.has(k)?'inline-flex':'none';
+  $('qrEd').style.display=(k==='qr1'||k==='qr2')?'inline-flex':'none';
+  if(FONT_KEYS.has(k)){
+    const ffSel=$('pFf');
+    ffSel.value=ov.ffTouched&&[...ffSel.options].some(o=>o.value===ov.ff)?ov.ff:'';
+    setNum('pFs',ov.fs);$('pBold').classList.toggle('on',!!ov.bold);
+  }
+}
+[['pX','x'],['pY','y'],['pW','w'],['pH','h'],['pRot','rot']].forEach(([id,prop])=>{
+  $(id).addEventListener('input',()=>{if(!cur)return;
+    cur.ov[prop]=parseFloat($(id).value)||0;applyStyle(cur.el,cur.ov);renderSel();saveED();});
+});
+$('pFf').addEventListener('change',()=>{if(!cur)return;
+  const v=$('pFf').value;
+  if(v){cur.ov.ff=v;cur.ov.ffTouched=true;}
+  else{cur.ov.ff=getComputedStyle(cur.el).fontFamily;cur.ov.ffTouched=false;
+    cur.el.style.fontFamily='';
+    cur.el.querySelectorAll('*').forEach(c=>{if(c.namespaceURI===HTMLNS)c.style.fontFamily='';});}
+  applyStyle(cur.el,cur.ov);saveED();});
+$('pFs').addEventListener('input',()=>{if(!cur)return;
+  cur.ov.fs=Math.max(.5,parseFloat($('pFs').value)||0);cur.ov.fsTouched=true;
+  applyStyle(cur.el,cur.ov);saveED();});
+$('pBold').addEventListener('click',()=>{if(!cur)return;
+  cur.ov.bold=!cur.ov.bold;cur.ov.boldTouched=true;
+  applyStyle(cur.el,cur.ov);syncProps();saveED();});
+document.querySelectorAll('[data-z]').forEach(b=>b.addEventListener('click',()=>{
+  if(!cur)return;const{label,el,ov}=cur,act=b.dataset.z;
+  const zs=[...label.querySelectorAll(':scope > .el')].filter(n=>n!==el)
+    .map(n=>{const o=ED[label.dataset.gen]&&ED[label.dataset.gen][n.dataset.mod];return o?o.z||0:0;});
+  if(act==='top')ov.z=Math.max(0,...zs)+1;
+  if(act==='bottom')ov.z=Math.min(0,...zs)-1;
+  if(act==='up')ov.z=(ov.z||0)+1;
+  if(act==='down')ov.z=(ov.z||0)-1;
+  applyStyle(el,ov);saveED();
+}));
+$('pReset').addEventListener('click',()=>{
+  if(!cur)return;const{el,label}=cur,gen=label.dataset.gen,k=el.dataset.mod;
+  delete ED[gen][k];
+  ['left','top','width','height','right','bottom','transform','transformOrigin','zIndex',
+   'fontSize','fontWeight','fontFamily','borderTopWidth'].forEach(p=>el.style[p]='');
+  el.querySelectorAll('*').forEach(c=>{if(c.namespaceURI===HTMLNS){
+    c.style.fontSize='';c.style.fontWeight='';c.style.fontFamily='';}});
+  refreshPanel(label.closest('.panel'));deselect();saveED();
+});
+/* 复位全部：清空三代/四代/五代所有模块覆盖 + 纸张/整体变换回到出厂默认 */
+$('pResetAll').addEventListener('click',()=>{
+  if(!confirm('确定全部复位？\n\n将清空三个型号所有模块的位置/字号/加粗/字体/图层/二维码自定义，\n并把纸张恢复 75×38mm、整体缩放/旋转恢复默认。'))return;
+  deselect();
+  ED={};G={s:100,r:0};
+  clearAllInlineEdits();
+  pgW.value=75;pgH.value=38;syncPresetSel();applyPage();
+  $('gScale').value=100;$('gRot').value=0;applyGlobal();
+  refreshAll();writeStore();
+});
+
+/* ---- 二维码：换图片 / 自定义内容重绘 / 恢复 ---- */
+$('qrFile').addEventListener('change',e=>{
+  const f=e.target.files[0];if(!f||!cur)return;
+  const rd=new FileReader();
+  rd.onload=()=>{cur.ov.qrImg=rd.result;delete cur.ov.qrText;
+    applyQR(cur.el,cur.ov);saveED();};
+  rd.readAsDataURL(f);e.target.value='';
+});
+$('qrGen').addEventListener('click',()=>{
+  if(!cur)return;const t=$('qrText').value.trim();if(!t)return;
+  delete cur.ov.qrImg;cur.ov.qrText=t;applyQR(cur.el,cur.ov);saveED();
+});
+$('qrRestore').addEventListener('click',()=>{
+  if(!cur)return;delete cur.ov.qrImg;delete cur.ov.qrText;$('qrText').value='';
+  refreshPanel(cur.el.closest('.panel'));saveED();
+});
+
+/* ==================== 编辑模式默认开启 ==================== */
+document.body.classList.add('editing');
+stage.addEventListener('dblclick',e=>{
+  const el=e.target.closest('.el');if(!el)return;
+  enterInlineEdit(el,e);
+});
+/* 键盘控制：方向键移动（Shift=2mm，普通=0.5mm），[ ] 旋转（Shift=10°）
+   Escape 先退出文字编辑（保持选中），再按一次取消选中 */
+window.addEventListener('keydown',e=>{
+  if(!cur)return;
+  const t=e.target;
+  const inField=t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.tagName==='SELECT'||t.isContentEditable);
+  if(inField){
+    if(e.key==='Escape'){t.blur();e.preventDefault();}
+    return;
+  }
+  const k=e.key,step=e.shiftKey?2:.5;
+  let used=true;
+  if(k==='ArrowLeft')cur.ov.x-=step;
+  else if(k==='ArrowRight')cur.ov.x+=step;
+  else if(k==='ArrowUp')cur.ov.y-=step;
+  else if(k==='ArrowDown')cur.ov.y+=step;
+  else if(k==='[')cur.ov.rot=(cur.ov.rot||0)-(e.shiftKey?10:1);
+  else if(k===']')cur.ov.rot=(cur.ov.rot||0)+(e.shiftKey?10:1);
+  else if(k==='Escape'){deselect();return;}
+  else used=false;
+  if(used){e.preventDefault();
+    cur.ov.x=+cur.ov.x.toFixed(2);cur.ov.y=+cur.ov.y.toFixed(2);cur.ov.rot=+cur.ov.rot.toFixed(1);
+    applyStyle(cur.el,cur.ov);renderSel();syncProps();saveED();}
+});
+document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>setTimeout(deselect,0)));
+
+/* ==================== 内容整体缩放/旋转（作用于 .label，纸张保持页面尺寸，打印同样生效） ==================== */
+function applyGlobal(){
+  G.s=parseFloat($('gScale').value)||100;
+  G.r=parseFloat($('gRot').value)||0;
+  const eff=fitScale()*G.s/100;       /* 纸张自适应 × 手动缩放 */
+  document.querySelectorAll('.label').forEach(l=>{
+    l.style.transform=`rotate(${G.r}deg) scale(${eff})`;
+    l.style.transformOrigin='50% 50%';
+  });
+  /* 打印模式：transform:scale 只缩视觉不缩布局盒，浏览器按 100×50mm 分页导致溢页。
+     用负 margin 抵消布局盒超出部分，让布局盒=视觉尺寸，字号也随 scale 缩放 */
+  let po=document.getElementById('printOverride');
+  if(!po){po=document.createElement('style');po.id='printOverride';document.head.appendChild(po);}
+  const mh=((50*(1-eff))/2).toFixed(2),mw=((100*(1-eff))/2).toFixed(2);
+  po.textContent=`@media print{.label{margin:${mh}mm ${mw}mm !important;transform:rotate(${G.r}deg) scale(${eff}) !important;transform-origin:50% 50% !important}}`;
+  const warn=document.getElementById('pgWarn');
+  if(warn){const w=parseFloat(pgW.value),h=parseFloat(pgH.value);
+    const cw=100*eff,ch=50*eff,over=cw>w+0.05||ch>h+0.05;
+    warn.textContent=`标签实际打印尺寸 ${cw.toFixed(1)}×${ch.toFixed(1)}mm（自动 ${Math.round(fitScale()*100)}% × 手动 ${G.s}%）`
+      +(over?'  ⚠ 超出纸张会被裁切':'');
+    warn.style.color=over?'#ff9a9a':'#8fce8f';}
+  saveED();
+}
+$('gScale').addEventListener('input',applyGlobal);
+$('gRot').addEventListener('input',applyGlobal);
+$('gSwap').addEventListener('click',()=>{
+  const a=pgW.value;pgW.value=pgH.value;pgH.value=a;syncPresetSel();applyPage();writeStore();
+});
+$('gReset').addEventListener('click',()=>{$('gScale').value=100;$('gRot').value=0;applyGlobal();});
+
+/* ==================== 模板另存 / 导入 ==================== */
+function clearAllInlineEdits(){
+  document.querySelectorAll('.label [data-mod]').forEach(el=>{
+    ['left','top','width','height','right','bottom','transform','transformOrigin','zIndex',
+     'fontSize','fontWeight','fontFamily','borderTopWidth'].forEach(p=>el.style[p]='');
+    el.querySelectorAll('*').forEach(c=>{if(c.namespaceURI===HTMLNS){
+      c.style.fontSize='';c.style.fontWeight='';c.style.fontFamily='';}});
+  });
+}
+$('btnTplSave').addEventListener('click',()=>{
+  const tpl={app:'Y700-label-template',ver:1,savedAt:new Date().toISOString(),
+    paper:{w:parseFloat(pgW.value),h:parseFloat(pgH.value)},
+    global:{s:G.s,r:G.r},edits:ED};
+  const blob=new Blob([JSON.stringify(tpl,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  const d=new Date(),pad=n=>String(n).padStart(2,'0');
+  a.download=`Y700标签模板_${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}.json`;
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+});
+$('btnTplLoad').addEventListener('click',()=>$('tplFile').click());
+$('tplFile').addEventListener('change',e=>{
+  const f=e.target.files[0];if(!f)return;
+  const rd=new FileReader();
+  rd.onload=()=>{
+    let tpl;
+    try{
+      tpl=JSON.parse(rd.result);
+      if(!tpl||typeof tpl!=='object'||tpl.app!=='Y700-label-template'||typeof tpl.edits!=='object')
+        throw new Error('format');
+    }catch(err){alert('导入失败：不是本工具导出的模板文件（.json）');return;}
+    deselect();
+    ED=tpl.edits;                                   /* 整体替换模块覆盖 */
+    clearAllInlineEdits();
+    refreshAll();                                   /* 先恢复默认重绘，再叠加覆盖 */
+    if(tpl.paper&&tpl.paper.w>=20&&tpl.paper.h>=20){
+      pgW.value=tpl.paper.w;pgH.value=tpl.paper.h;syncPresetSel();applyPage();}
+    if(tpl.global){G.s=+tpl.global.s||100;G.r=+tpl.global.r||0;
+      $('gScale').value=G.s;$('gRot').value=G.r;applyGlobal();}
+    writeStore();
+    alert('模板已导入：纸张 '+pgW.value+'×'+pgH.value+'mm，三代/四代/五代布局均已载入。');
+  };
+  rd.readAsText(f);e.target.value='';
+});
+
+function initEditor(){
+  applyAllEdits();
+  /* buildStage 后 label 元素才存在，此时锁定 contenteditable 为 false */
+  document.querySelectorAll('.label [contenteditable]').forEach(el=>{
+    el.dataset.ce=el.getAttribute('contenteditable');
+    el.setAttribute('contenteditable','false');
+  });
+  $('gScale').value=G.s;$('gRot').value=G.r;applyGlobal();applyPage();
+}
+buildStage();
+initEditor();
+/* 无头测试钩子：URL 加 #print 自动给当前面板加 print 类 */
+if(location.hash==='#print')document.querySelector('.panel.active')?.classList.add('print');
+</script>
+</body>
+</html>
